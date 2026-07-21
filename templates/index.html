@@ -1,0 +1,207 @@
+{% extends "base.html" %}
+
+{% block title %}AI Interview Preparation System{% endblock %}
+
+{% block content %}
+
+<div class="row justify-content-center">
+
+    <div class="col-lg-8">
+
+        <div class="card shadow-custom glass p-4 fade-up">
+
+            <div class="text-center mb-4">
+
+                <h1 class="text-gradient">
+                    <i class="bi bi-robot"></i>
+                    AI Interview Preparation System
+                </h1>
+
+                <p class="text-light">
+                    Practice • Improve • Succeed
+                </p>
+
+            </div>
+
+
+            {% if choose_domain %}
+
+            <form method="POST">
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        Select Interview Domain
+                    </label>
+
+                    <select class="form-select"
+                            name="domain"
+                            required>
+
+                        <option value="Python Developer">
+                            Python Developer
+                        </option>
+
+                        <option value="Data Science">
+                            Data Science
+                        </option>
+
+                        <option value="Machine Learning">
+                            Machine Learning
+                        </option>
+
+                        <option value="Data Analyst">
+                            Data Analyst
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="d-grid">
+
+                    <button class="btn btn-primary btn-lg"
+                            type="submit">
+
+                        <i class="bi bi-play-circle-fill"></i>
+                        Start Interview
+
+                    </button>
+
+                </div>
+
+            </form>
+
+
+            <!-- Resume Upload Button -->
+
+            <div class="d-grid mt-3">
+
+                <a href="/resume_upload"
+                   class="btn btn-warning btn-lg">
+
+                    <i class="bi bi-file-earmark-person-fill"></i>
+                    Upload Resume & Generate Questions
+
+                </a>
+
+            </div>
+
+
+            {% else %}
+
+
+            <div class="text-center mb-3">
+
+                <h5>
+                    Question {{ count }} / {{ total }}
+                </h5>
+
+
+                <div class="progress mt-3">
+
+                    <div class="progress-bar bg-success"
+                         style="width: {{ (count/total)*100 }}%;">
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="card p-4 mt-4 fade-up">
+
+    <h4>
+        <i class="bi bi-question-circle-fill text-primary"></i>
+        {{ question }}
+    </h4>
+
+</div>
+
+
+            <div class="text-center mt-4">
+
+                <span class="badge bg-danger fs-5">
+
+    ⏱ Time Left:
+    <span id="timer">60</span> sec
+
+</span>
+
+            </div>
+
+
+            <form method="POST"
+                  id="answerForm">
+
+
+                <div class="mt-4">
+
+                    <textarea
+                        class="form-control"
+                        name="answer"
+                        rows="6"
+                        placeholder="Type your answer here..."
+                        required></textarea>
+
+                </div>
+
+
+                <div class="d-grid mt-4">
+
+                    <button class="btn btn-success btn-lg"
+                            type="submit">
+
+                        <i class="bi bi-send-fill"></i>
+Submit Answer
+
+                    </button>
+
+                </div>
+
+
+            </form>
+
+
+            {% endif %}
+
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+let timer=document.getElementById("timer");
+
+if(timer){
+
+let t=60;
+
+let x=setInterval(function(){
+
+t--;
+
+timer.innerHTML=t;
+
+if(t<=0){
+
+clearInterval(x);
+
+document.getElementById("answerForm").submit();
+
+}
+
+},1000);
+
+}
+
+</script>
+
+
+{% endblock %}

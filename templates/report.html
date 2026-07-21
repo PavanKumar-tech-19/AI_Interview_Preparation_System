@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Interview Report</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
+            text-align: center;
+            padding: 40px;
+        }
+
+        .container {
+            max-width: 850px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 0 15px gray;
+        }
+
+        .result {
+            text-align: left;
+            border: 1px solid #ddd;
+            padding: 20px;
+            margin-top: 20px;
+            border-radius: 10px;
+        }
+
+        .buttons {
+            margin-top: 30px;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 12px 20px;
+            margin: 10px 5px;
+            font-size: 16px;
+            text-decoration: none;
+            border-radius: 6px;
+            cursor: pointer;
+            color: white;
+        }
+
+        .new-interview {
+            background: #007bff;
+        }
+
+        .logout {
+            background: #dc3545;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>🎉 Interview Completed</h1>
+
+    <h2>Domain: {{ domain }}</h2>
+
+    <h2>Average Score: {{ average }}/10</h2>
+
+    <h2>Percentage: {{ average * 10 }}%</h2>
+
+    {% if average >= 8 %}
+
+        <h2 style="color: green;">
+            Excellent Performance ⭐
+        </h2>
+
+    {% elif average >= 5 %}
+
+        <h2 style="color: orange;">
+            Good Performance 👍
+        </h2>
+
+    {% else %}
+
+        <h2 style="color: red;">
+            Need Improvement 💪
+        </h2>
+
+    {% endif %}
+
+    <hr>
+
+    <h2>AI Evaluation Report</h2>
+
+    {% for r in results %}
+
+        <div class="result">
+
+            <h3>Question {{ loop.index }}</h3>
+
+            <p><b>Question:</b> {{ r.question }}</p>
+
+            <p><b>Your Answer:</b><br>
+                {{ r.answer }}
+            </p>
+
+            <p><b>Score:</b> {{ r.evaluation.score }}/10</p>
+
+            <p>
+                <b>✅ Strengths:</b><br>
+                {{ r.evaluation.strengths }}
+            </p>
+
+            <p>
+                <b>⚠️ Weaknesses:</b><br>
+                {{ r.evaluation.weaknesses }}
+            </p>
+
+            <p>
+                <b>💡 Correct Answer:</b><br>
+                {{ r.evaluation.correct_answer }}
+            </p>
+
+            <p>
+                <b>📈 Improvement Tips:</b><br>
+                {{ r.evaluation.improvement_tips }}
+            </p>
+
+        </div>
+
+    {% endfor %}
+
+    <div class="buttons">
+
+        <a href="/reset" class="button new-interview">
+            🔄 Start New Interview
+        </a>
+
+        <a href="/download_pdf" class="button" style="background:green;">
+    📄 Download PDF
+</a>
+
+        <a href="/logout" class="button logout">
+            🚪 Logout
+        </a>
+
+    </div>
+
+</div>
+
+</body>
+</html>

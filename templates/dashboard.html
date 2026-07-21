@@ -1,0 +1,120 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<div class="container section">
+
+    <h1 class="text-center text-gradient mb-5 fade-up">
+        <i class="bi bi-speedometer2"></i>
+        Interview Dashboard
+    </h1>
+
+    <div class="row g-4">
+
+        <div class="col-md-4">
+            <div class="dashboard-card bg-blue">
+                <i class="bi bi-clipboard-check"></i>
+                <h2>{{ total }}</h2>
+                <p>Total Interviews</p>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="dashboard-card bg-green">
+                <i class="bi bi-graph-up"></i>
+                <h2>{{ avg }}/10</h2>
+                <p>Average Score</p>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="dashboard-card bg-purple">
+                <i class="bi bi-trophy"></i>
+                <h2>{{ best }}/10</h2>
+                <p>Best Score</p>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="card p-4 mt-5">
+
+        <h3 class="mb-4">
+            <i class="bi bi-bar-chart-line"></i>
+            Performance Chart
+        </h3>
+
+        <canvas id="performanceChart"></canvas>
+
+    </div>
+
+    <div class="text-center mt-5">
+
+        <a href="{{ url_for('history') }}" class="btn btn-primary">
+            <i class="bi bi-clock-history"></i>
+            View Interview History
+        </a>
+
+    </div>
+
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+
+const scores = {{ scores | tojson }};
+
+const ctx = document.getElementById("performanceChart");
+
+new Chart(ctx, {
+
+    type: "line",
+
+    data: {
+
+        labels: scores.map((_, i) => "Interview " + (i + 1)),
+
+        datasets: [{
+
+            label: "Score",
+
+            data: scores,
+
+            tension: 0.4
+
+        }]
+
+    },
+
+    options: {
+
+        responsive: true,
+
+        scales: {
+
+            y: {
+
+                beginAtZero: true,
+
+                max: 10
+
+            }
+
+        }
+
+    }
+
+});
+
+</script>
+
+{% endblock %}
