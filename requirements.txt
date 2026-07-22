@@ -5,3 +5,4 @@ reportlab
 google-genai
 PyPDF2
 gunicorn
+PyMuPDF
