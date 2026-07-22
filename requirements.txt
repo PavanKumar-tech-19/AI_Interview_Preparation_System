@@ -1,0 +1,7 @@
+Flask
+Werkzeug
+python-dotenv
+reportlab
+google-genai
+PyPDF2
+gunicorn
