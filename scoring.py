@@ -33,7 +33,16 @@ Question:
 Candidate Answer:
 {answer}
 
-Return ONLY valid JSON in this format:
+Rules:
+1. Score must be ONLY an integer between 0 and 10.
+2. Strengths must be ONLY one short sentence.
+3. Weaknesses must be ONLY one short sentence.
+4. Correct Answer must be ONLY one short paragraph (maximum 40-50 words).
+5. Do NOT use bullet points, numbering, code blocks, or lengthy explanations.
+6. Improvement Tips must be ONLY one short sentence (maximum 15 words).
+7. Return ONLY valid JSON in the format below.
+
+Return ONLY this JSON:
 
 {{
     "score": 0,
@@ -60,16 +69,18 @@ Return ONLY valid JSON in this format:
 
             data = json.loads(text)
 
+            score = max(0, min(int(data.get("score", 0)), 10))
+
             return {
-                "score": int(data.get("score", 0)),
+                "score": score,
                 "strengths": data.get("strengths", "Good attempt."),
                 "weaknesses": data.get("weaknesses", "Needs improvement."),
-                "correct_answer": data.get("correct_answer", ""),
+                "correct_answer": data.get("correct_answer", "No answer available."),
                 "improvement_tips": data.get("improvement_tips", "Practice more.")
             }
 
         except Exception as e:
-            print(f"Attempt {attempt+1}: {e}")
+            print(f"Attempt {attempt + 1}: {e}")
 
             if attempt < 2:
                 time.sleep(3)
@@ -97,16 +108,15 @@ Return ONLY valid JSON in this format:
         "score": score,
         "strengths": "Answer submitted successfully.",
         "weaknesses": "AI server is currently busy, so fallback evaluation was used.",
-        "correct_answer": "AI-generated ideal answer is currently unavailable.",
-        "improvement_tips": "Write answers with more technical details and examples to improve your score."
+        "correct_answer": "The AI server is currently busy. Please try again later to view the ideal answer.",
+        "improvement_tips": "Write clearer technical answers with key concepts."
     }
-
 
 # ---------------- AI RESUME QUESTIONS ---------------- #
 
 def generate_ai_resume_questions(resume_text):
 
-    prompt = f"""
+    prompt =f"""
 Read the following resume and generate 10 interview questions.
 
 Resume:
