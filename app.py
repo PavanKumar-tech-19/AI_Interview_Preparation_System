@@ -10,9 +10,36 @@ from datetime import datetime
 from reportlab.pdfgen import canvas
 import io
 
+def init_db():
+    conn = sqlite3.connect("interview.db")
+    cursor = conn.cursor()
+
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS users (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        username TEXT UNIQUE NOT NULL,
+        password TEXT NOT NULL
+    )
+    """)
+
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS interviews (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        username TEXT,
+        domain TEXT,
+        score REAL,
+        interview_date TEXT
+    )
+    """)
+
+    conn.commit()
+    conn.close()
+
 app = Flask(__name__)
 app.secret_key = "secret_key_123"
 
+init_db()
+ 
 ADMIN_USERNAME = "admin"
 ADMIN_PASSWORD = "admin123"
 
